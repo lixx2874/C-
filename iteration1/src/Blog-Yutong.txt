@@ -1,0 +1,11 @@
+Blog: 02/26/2016 Highlighter + ColorfulPen
+Highlighter:
+Highlighters is the tool that can be used to highlight the important parts of the paragraph. And the calculation of the color at one point can be simplified as:
+											R = 0.4 * C (Given Color) + 0.6 * B_C (Background Color)
+And the size of the highlighter is supposed to be 5 pixels wide and 15 pixels high.
+
+ColorfulPen:
+Colorful pen is the tool that is similar to pen but with color changing all the time. People who wants to use it can change its initial color and whenever the 
+colorful pen left paper, it would change its original color to a random color. The reason we add this tool to our project is that this might make the drawer 
+happy. And as long as he/she has no idea what color he/she want to use, he/she can use one which might surprise them and give them some ideas about what color
+they might use for his future drawing in this picture!

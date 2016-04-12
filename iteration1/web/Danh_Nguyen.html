@@ -1,0 +1,36 @@
+<h2>Danh Nguyen's Blog Entry!</h2>
+
+<h2>Parent Class: Tool.</h2>
+
+<p>The Tool class was use as a parent class with abstract functions that the subclass can initialize within their own class later. The functions, draw and setColor, will allow its subclass to instantiate the functions by leaving them as virtual functions. Tool also holds the private member m_mask, a two-dimensional array, that will hold the shape and color of the brushes. Tool don't create the mask for the brushes but as a parent class, it allows the subclass to create the array to any size tailored to the specific brush. This class was created by the whole team during lab time so all of us knows what direction the project is going. This also allows us to focus on creating the specific brush assigned to us without any confusion.
+
+<h2>Calligraphy Pen Class.</h2>
+<code>
+<p>m_mask = new float *[15];<p>
+<p>for (int i = 0; i < 15; i++){<p>
+</ol>m_mask[i] = new float [5];<ol>
+<p>for (int j = 0; j < 5; j++){<p>
+<p>m_mask[i][j]=1;<p>
+</ol> /Initialize color within mask!<ol>
+</ol>for (int i = 0;  i < 15; i++){<ol>
+<p>for (int j = 0; j < 5; j++){<p>
+<ol>const ColorData& color = ColorData(red,green,blue);
+<p>background->setPixel(x-2+j,y-7+i,color);<p>
+</code>
+
+</ol>The Calligraphy class initialize a two-dimensional array of type float that holds the pixel information centered at the mouse cursor. The array, called mask, holds color information with a specific shape, 5 by 15 for the Calligraphy Pen, which allows the mouse to draw on a canvas with the specify shape and color. This is done by creating an array then iterating it through it again with a loop. The color is then set through importing ColorData class and put color into each block of the array by iterating through it. Notice that Calligraphy Pen is a rectangle mask of 5 by 15, the mask is centered on the mouse by subtracting half the length of the width and height from the x and y coordinate, respectively. </ol>
+
+<h2>Eraser Class.</h2>
+
+<code>
+<p>void Erasure::draw(PixelBuffer *background, int x, int y){</p>
+<ol>m_mask = new float *[21];<ol>
+</ol>for (int i = 0; i < 21; i++){<ol>
+</ol><ol>m_mask[i] = new float [21];<ol>
+<p>for (int j = 0; j <21; j++){<p>
+<ol>float diameter = (int) sqrt(((10-i)*(10-i)+(10-j)*(10-j)));</ol>
+<ol>if (diameter<=10){<ol>
+<p>m_mask [i][j] = 1;<p>
+</code>
+
+</ol>The Eraser Class is the same as the Calligraphy Pen class. It initialize a two-dimensional array to use as a mask to hold ColorData within the array. The mask of the eraser is a square but the shape needs to be round thus a diameter was calculated after the mask is initialized and background color was set within the diameter only. Alpha, background color, is set outside the array where it won't change the previous color on those spots.

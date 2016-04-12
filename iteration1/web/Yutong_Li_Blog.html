@@ -1,0 +1,102 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<h2 style = "color:white;background: black";><font size="12"><center>Yutong's Blog for Brushwork Prject</center></font></h2>
+</head>
+<body>
+	<body style="background: #CEF6D8;">
+	<h3 style = "color:black"> <font size="8" face="Georgia, Arial" color="maroon"> I</font>ntroduction </h3>
+	<p> &nbsp;&nbsp;&nbsp;&nbsp;My task for this project is to finish writing 2 tools including Highlighters and a self-defined tool- Colorful pen. Highlighters is used for highlight the important paragraphs. Since it is used to hightlight, which means that it can't cover the texts from the background, I need to use math calculation to calculate the mixed color combined by the setting color and background color. And for Colorful Pen, it's a tool that changes its color randomly while users are drawing. And user can only set the initial color of it. Source code and descriptions will be provided below.</p>
+	<h3><font size="6" face="Georgia, Arial" color="maroon"> H</font>ighlighter </h3>
+	<h4 style="color: #FF0000";>.h code</h4>
+	
+		<p style="background: lightgrey"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class Highlighter: public Tool<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public:<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Highlighter(float r,float g,float b);<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;virtual ~Highlighter();<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;void setColor(float r,float g,float b);<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;void draw(PixelBuffer* background, int x,int y);}</code></p>
+
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;This is the h file for Highlighters which is supposed to be the interface of file Highlighters. Since highlighter is a tool, we inheritent class tool. Since we need the color of the initial highlighter, we need to build a constructor with 3 colors- red, blue, and green. What's more, we need a setColor class that may help us change the color during the process of changing the drawing. And at last, we need a class called draw in the highlighter class in order to let it draw on the paper.</p>
+	<h4 style="color: #FF0000";>important parts of .cpp code</h4>
+		<p style="background: lightgrey">
+		<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_mask = new float *[15];<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < 15; i++){<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_mask[i]= new float [5];<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int j =0; j< 5; j++){<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_mask[i][j]=0.4;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+		</code></p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;This part is the part that I built the mask of highlighter. Following instruction, I created a 2D array that stores the mask of each element. And the setting color is supposed to be 0.4 * setting color.<p>
+
+		<p style="background: lightgrey">
+		<code>
+				void Highlighter::draw(PixelBuffer *background, int x, int y){<br>
+			    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i=0; i<15; i++){<br>
+        		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int c = 0; c < 5; c++){;<br>
+            	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ColorData get = background->getPixel(x-2+c, y-7+i);<br>
+            	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const ColorData& color = ColorData(red * m_mask[i][c]*get.getLuminance()+ (1-m_mask[i][c]*get.getLuminance())* get.getRed(),green * m_mask[i][c]*get.getLuminance() + (1-m_mask[i][c]*get.getLuminance()) * get.getGreen(), blue *m_mask[i][c]*get.getLuminance() + (1-m_mask[i][c]*get.getLuminance()) * get.getBlue());<br>
+
+            	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background->setPixel(x-2+c,y-7+i,color);<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+				}
+		</code>
+		</p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This part of code is the most important part of the whole class. Since in method draw, we need to set the color of the pixel that mouse dragged to the new color. And since the tool here is highlighter, according to the instruction of first project, I need to use calculation to mix 2 colors together. And since the original mask is already set, we just need to use the mask times the color that users what the highlighters be and mix the new color to the background color times 1 - mask. This will give us the new color which is mixed by both setting color and background color. After setting all the colors, we just need to set pixels to the new color that we calculated. And the draw part is done. However, we need to nice that for x axies, we need to use x-2+c since the width of highlighters is 5 and 2 is the middle point of its width. And same to y-axis, since the height of highlighters is 15, 7 will be the index that is the middle point of its height. And we simply set the pixel that is calculated to the calculated color we got. That's all for Highlighters part!</p>
+	
+	<h3><font size="6" face="Georgia, Arial" color="maroon"> C</font>olorful <font size="6" face="Georgia, Arial" color="maroon">P</font>en </h3>
+	<h4 style="color: #FF0000";>.h code</h4>
+		<p style="background: lightgrey"><code>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class ColorfulPen: public Tool{<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public:<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ColorfulPen(float r,float g,float b);<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;virtual ~ColorfulPen();<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;void setColor(float r,float g,float b);<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;void draw(PixelBuffer* background, int x,int y);}</code></p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Similar to .h class of Highlighters, since Colorful Pen is a tool, we need to implement tool class in class Colorful Pen. What's more, we need a constructor of Colorful Pen and initialize the color of it. Also, we need a setColor method to help users change the color of the Colorful Pen and another method that can help the program draw on the paper!</p>
+		<h4 style="color: #FF0000";>important parts of .cpp code</h4>
+		<p style="background: lightgrey">
+		    <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_mask = new float *[9];<br>
+    		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < 9; i++){<br>
+        		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_mask[i]= new float [9];<br>
+        		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int j = 0; j<9; j++){<br>
+            		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_mask[i][j] = 1;<br>
+        		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<
+		</code></p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Similar to setting masks of Highlighters, we only change the size of the 2D array that holds the masks. In Colorful Pen class, we assume that the size of it is 9 pixels * 9 pixels. And since we don't need to consider whether it's transparent or not, we can just set all the mask 1.</p>
+
+		<p style="background: lightgrey">
+		<code>
+				void ColorfulPen::draw(PixelBuffer *background, int x, int y){<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;red =((float) rand()) / (float) RAND_MAX;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;green =((float) rand()) / (float) RAND_MAX;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blue =((float) rand()) / (float) RAND_MAX;<br>
+			    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i=0; i<9; i++){<br>
+        		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int c = 0; c < 9; c++){;<br>
+            	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const ColorData& color = ColorData(red*m_mask[i][c],green*m_mask[i][c],blue*m_mask[i][c]);<br>
+            	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background->setPixel(x-4+c,y-4+i,color);<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+				}
+		</code>
+		<p>
+			The only difference between the draw function and the draw function of Highlighter is that each time I call draw, the system will call the function rand() which will generate a random number between 0 to 1. And I need to generate 3 random numbers for red, blue, and green. Finally, after combining all the three colors together, I can get the new color. And this color will be used to draw. What's more, since the size of this tool is 9 pixels * 9 pixels, the middle point of the array should be index 4*4. Thus, in both x and y axis, we have a -5 in order to let the mouse pointing to the middle.
+		</p>
+<h3 style = "color:black"> <font size="8" face="Georgia, Arial" color="maroon"> S</font>ummary </h3>
+	<body>
+		The two specific tools I wrote are Highlighters and Colorful Pen. Highlighters use the math calculation to mix the setting color and background color together to get a new color. And Colorful Pen uses system call to change the color randomly and set the pixels with these random colors.
+	</body>
+
+<h5>
+	Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Yutong Li<br>
+	X500:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lixx2874<br>
+	Group:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WintersTale
+</h5>>
+</body>
+</html>
+

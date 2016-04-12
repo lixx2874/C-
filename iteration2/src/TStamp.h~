@@ -1,0 +1,25 @@
+//
+//  Stamp.h
+//  Student Support
+//
+//  Created by Xinyuan Liu
+
+//
+//  This tool simulates the usage of a Rubber Stamp.
+
+
+#ifndef STAMP_H
+#define STAMP_H
+
+#include "Stamp.h"
+
+class Stamp
+{
+friend class PngFacade;
+public:
+	Stamp();
+
+	std::string getName() ;
+};
+
+#endif
