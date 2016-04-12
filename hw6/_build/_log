@@ -1,0 +1,10 @@
+### Starting build.
+# Target: funSrv.ml.depends, tags: { extension:ml, file:funSrv.ml, ocaml, ocamldep, package(lwt), package(lwt.unix), quiet }
+/soft/ocaml-4.01.0/linux_x86_64/bin/ocamldep.opt -modules funSrv.ml > funSrv.ml.depends # cached
+# Target: funSrv.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:funSrv.cmo, file:funSrv.ml, implem, ocaml, package(lwt), package(lwt.unix), quiet }
+/soft/ocaml-4.01.0/linux_x86_64/bin/ocamlc.opt -c -I /soft/ocaml-4.01.0/linux_x86_64/lib/ocaml -I /soft/ocaml-4.01.0/linux_x86_64/lib/ocaml/site-lib/lwt -o funSrv.cmo funSrv.ml # cached
+# Target: funSrv.cmx, tags: { compile, extension:cmx, extension:ml, file:funSrv.cmx, file:funSrv.ml, implem, native, ocaml, package(lwt), package(lwt.unix), quiet }
+/soft/ocaml-4.01.0/linux_x86_64/bin/ocamlopt.opt -c -I /soft/ocaml-4.01.0/linux_x86_64/lib/ocaml -I /soft/ocaml-4.01.0/linux_x86_64/lib/ocaml/site-lib/lwt -o funSrv.cmx funSrv.ml # cached
+# Target: funSrv.native, tags: { dont_link_with, extension:native, file:funSrv.native, link, native, ocaml, package(lwt), package(lwt.unix), program, quiet }
+/soft/ocaml-4.01.0/linux_x86_64/bin/ocamlopt.opt str.cmxa -I /soft/ocaml-4.01.0/linux_x86_64/lib/ocaml -I /soft/ocaml-4.01.0/linux_x86_64/lib/ocaml/site-lib/lwt lwt.cmxa lwt-log.cmxa unix.cmxa bigarray.cmxa lwt-unix.cmxa funSrv.cmx -o funSrv.native # cached
+# Compilation successful.
